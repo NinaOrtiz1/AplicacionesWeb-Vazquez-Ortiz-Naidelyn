@@ -4,57 +4,229 @@
     <!-- Cabecera del documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Web</title>
+    <title>Game Room</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos básicos para centrar los juegos */
+        .juegos-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .juego {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 250px;
+        }
+
+        .slider {
+            display: flex;
+            overflow: hidden;
+            width: 150%;
+        }
+
+        .slider img {
+            width: 200%;
+        }
+
+        .container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Estilos para el botón de notificación */
+        .notification-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+            background-color: #f39c12;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            display: none;
+            cursor: pointer;
+        }
+
+        .notification-message {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background-color: #f39c12;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <img src="./luna.jpeg" alt="inicio" width="1600" height="250">
+    <!-- Imagen de cabecera -->
+    <div class="container">
+        <ul class="slider">
+          <li id="slide1">
+            <img src="assets/imagenes/1.jpg" alt="fondo numero 1" width="1000" height="1000">
+          </li>
+          <li id="slide2">
+            <img src="assets/imagenes/2.jpg" alt="fondo numero 2" width="1000" height="1000">
+          </li>
+          <li id="slide3">
+            <img src="assets/imagenes/3.jpg" alt="fondo numero 3" width="1000" height="1000">
+          </li>
+        </ul>
+    </div>
+
+    <!-- Script para el slider -->
+    <script>
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slider li');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        const slideWidth = slides[0].clientWidth;
+        const intervalTime = 3000; // Tiempo entre cada imagen
+        let slideInterval;
+
+        function autoSlide() {
+            currentSlide++;
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+            moveSlider();
+        }
+
+        function moveSlider() {
+            slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            slider.style.transition = 'transform 0.5s ease';
+        }
+
+        slideInterval = setInterval(autoSlide, intervalTime);
+
+        // Reiniciar el slider si se usa manualmente
+        const menuLinks = document.querySelectorAll('.menu a');
+        menuLinks.forEach((link, index) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentSlide = index;
+                moveSlider();
+                clearInterval(slideInterval); 
+                slideInterval = setInterval(autoSlide, intervalTime); 
+            });
+        });
+    </script>
+
     <!-- Barra de navegación -->
     <nav>
         <ul>
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#sobre-mi">Sobre mí</a></li>
-            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#Inicio">Inicio</a></li>
+            <li><a href="#Catalogo">Catálogo</a></li>
+            <li><a href="#Contacto">Contacto</a></li>
         </ul>
     </nav>
 
     <!-- Sección principal -->
     <section id="inicio">
-        <h1>Bienvenidos a mi página web</h1>
-        <p>Esta página está diseñada para conocer mejor información sobre mí y cualquier cosa puedan hablarme.</p>
+        <h1>Bienvenidos a Game Room</h1>
+        <p>Esta página está diseñada para conocer mejor sobre videojuegos y temáticas.</p>
     </section>
 
-    <!-- Sección Sobre mí -->
-    <section id="sobre-mi">
-        <h2>Sobre mí</h2>
-            <li>👾Soy nueva programando html👾</li>
-            <li>👻Me gusta mucho la tecnología,musica y </li>
-            <li> los videojuegos👻</li>
-            <li>👽Me gusta aprender cosas nuevas todos</li>
-            <li> los días👽</li>
-            <img src="./yo.jpg" alt="inicio" width="200" height="200">
-        </ul>
+    <!-- Sección de catálogo de juegos -->
+    <section id="Catalogo">
+        <h2>Catálogo de Juegos</h2>
+
+        <!-- Contenedor para los juegos -->
+        <div class="juegos-container">
+            <!-- Resident Evil -->
+            <div class="juego">
+                <h3>Resident Evil 6 </h3>
+                <p>Precio: $350.00</p>
+                <img src="assets/imagenes/RE6.jpeg" alt="Resident Evil 3 Remake" width="300" height="300">
+                <button type="button" class="comprar-btn">Comprar</button>
+            </div>
+
+            <!-- Call of Duty Black Ops II -->
+            <div class="juego">
+                <h3>Call of Duty Black Ops II</h3>
+                <p>Precio: $409.00</p>
+                <img src="assets/imagenes/COB2.jpeg" alt="Call of Duty Black Ops II" width="300" height="200">
+                <button type="button" class="comprar-btn">Comprar</button>
+            </div>
+
+            <!-- Gears of War Ultimate -->
+            <div class="juego">
+                <h3>Gears of War Ultimate</h3>
+                <p>Precio: $500.00</p>
+                <img src="assets/imagenes/GOWU.jpeg" alt="Gears of War Ultimate" width="300" height="200">
+                <button type="button" class="comprar-btn">Comprar</button>
+            </div>
+
+            <!-- LEFT 4 DEAD 2 -->
+            <div class="juego">
+                <h3>LEFT 4 DEAD 2</h3>
+                <p>Precio: $230.50</p>
+                <img src="assets/imagenes/LFD2.jpeg" alt="LEFT 4 DEAD 2" width="300" height="200">
+                <button type="button" class="comprar-btn">Comprar</button>
+            </div>
+
+            <!-- DEAD ISLAND -->
+            <div class="juego">
+                <h3>DEAD ISLAND</h3>
+                <p>Precio: $750.00</p>
+                <img src="assets/imagenes/DI2.jpg" alt="DEAD ISLAND" width="300" height="200">
+                <button type="button" class="comprar-btn">Comprar</button>
+            </div>
+        </div>
     </section>
 
-    <!-- Formulario de contacto -->
-    <section id="contacto">
-        <h2>Contacto</h2>
+    <!-- Icono de notificación de compra -->
+    <button class="notification-icon">🔔</button>
+    <div class="notification-message">¡Acabas de agregar el juego!</div>
+
+    <!-- Script para manejar los botones de compra -->
+    <script>
+        const comprarButtons = document.querySelectorAll('.comprar-btn');
+        const notificationIcon = document.querySelector('.notification-icon');
+        const notificationMessage = document.querySelector('.notification-message');
+
+        comprarButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                alert("Has añadido este juego a tu carrito");
+                
+                // Mostrar la notificación de campana y mensaje
+                notificationIcon.style.display = 'block';
+                notificationMessage.style.display = 'block';
+                
+                // Ocultar la notificación después de 3 segundos
+                setTimeout(() => {
+                    notificationIcon.style.display = 'none';
+                    notificationMessage.style.display = 'none';
+                }, 3000);
+            });
+        });
+    </script>
+
+    <!-- Formulario de pedidos juegos -->
+    <section id="PedidosJuegos">
+        <h2>Pedidos Juegos</h2>
         <form action="#" method="POST">
             <label for="nombre">🙌Nombre:</label>
             <input type="text" id="nombre" name="nombre" required><br><br>
             
+            <label for="categoria">🎮Categoría del juego:</label>
+            <input type="text" id="categoria" name="categoria" required><br><br>
+            
             <label for="correo">👀Correo electrónico:</label>
             <input type="email" id="correo" name="correo" required><br><br>
-
-            <label for="comentarios">🤓Comentarios:</label><br>
-            <textarea id="comentarios" name="comentarios" rows="4" required></textarea><br><br>
 
             <button type="submit">Enviar</button>
         </form>
     </section>
 
-    <marquee behavior="scroll" direction="left" scrollamount="5"> Naidelyn Vazquez Ortiz 3ºA
-
-    </body>
+    <marquee behavior="scroll" direction="left" scrollamount="5">Naidelyn Vazquez Ortiz 3ºA</marquee>
+</body>
 </html>
