@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Cabecera del documento -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Room</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos básicos para centrar los juegos */
+        .juegos-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .juego {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 250px;
+        }
+
+        .slider {
+            display: flex;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .slider img {
+            width: 100%;
+        }
+
+        .container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Estilos para el botón de notificación */
+        .notification-icon {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #fff;
+            background-color: #f39c12;
+            border: none;
+            padding: 10px;
+            border-radius: 50%;
+            display: none;
+            cursor: pointer;
+        }
+
+        .notification-message {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background-color: #f39c12;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #000;
+        }
+
+        section {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .productos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .producto {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Imagen de cabecera -->
+    <div class="container">
+        <ul class="slider">
+            <li>
+                <img src="assets/imagenes/1.jpg" alt="fondo numero 1">
+            </li>
+            <li>
+                <img src="assets/imagenes/2.jpg" alt="fondo numero 2">
+            </li>
+            <li>
+                <img src="assets/imagenes/3.jpg" alt="fondo numero 3">
+            </li>
+        </ul>
+    </div>
+
+    <!-- Script para el slider -->
+    <script>
+        const slider = document.querySelector('.slider');
+        const slides = document.querySelectorAll('.slider li');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        const slideWidth = slides[0].clientWidth;
+        const intervalTime = 3000; // Tiempo entre cada imagen
+        let slideInterval;
+
+        function autoSlide() {
+            currentSlide++;
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            }
+            moveSlider();
+        }
+
+        function moveSlider() {
+            slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            slider.style.transition = 'transform 0.5s ease';
+        }
+
+        slideInterval = setInterval(autoSlide, intervalTime);
+    </script>
+
+    <!-- Barra de navegación -->
+    <nav>
+        <ul>
+            <li><a href="#Inicio">Inicio</a></li>
+            <li><a href="#Catalogo">Catálogo</a></li>
+            <li><a href="#Contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sección principal -->
+    <section id="Inicio">
+        <h1>Bienvenidos a Game Room</h1>
+        <p>Esta página está diseñada para conocer mejor sobre videojuegos y temáticas.</p>
+    </section>
+
+    <!-- Sección de catálogo de juegos -->
+    <section id="Catalogo">
+        <h2>Catálogo de Juegos</h2>
+        <div class="productos">
+            <div class="producto">
+                <img src="assets/imagenes/RE6.jpeg" alt="Resident Evil 6">
+                <h3>Resident Evil 6</h3>
+                <p>Precio: $220.00</p>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+            <div class="producto">
+                <img src="assets/imagenes/LFD2.jpeg" alt="Left For Dead 2">
+                <h3>Left For Dead 2</h3>
+                <p>Precio: $350.00</p>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+            <div class="producto">
+                <img src="assets/imagenes/GOWU.jpeg" alt="Gears Of War Ultimate">
+                <h3>Gears Of War Ultimate</h3>
+                <p>Precio: $800.00</p>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+            <div class="producto">
+                <img src="assets/imagenes/DI2.jpg" alt="Dead Island 2">
+                <h3>Dead Island 2</h3>
+                <p>Precio: $320.00</p>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+            <div class="producto">
+                <img src="assets/imagenes/COB2.jpeg" alt="Call Of Duty Black Ops II">
+                <h3>Call Of Duty Black Ops II</h3>
+                <p>Precio: $263.99</p>
+                <button class="comprar-btn">Comprar</button>
+            </div>
+        </div>
+    </section>
+
+    <button class="notification-icon">🔔</button>
+    <div class="notification-message">¡Acabas de agregar el juego al carrito!</div>
+    <script>
+        const comprarButtons = document.querySelectorAll('.comprar-btn');
+        const notificationIcon = document.querySelector('.notification-icon');
+        const notificationMessage = document.querySelector('.notification-message');
+
+        comprarButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const producto = event.target.parentElement;
+                const nombre = producto.querySelector('h3').textContent;
+                const precio = producto.querySelector('p').textContent.split(': ')[1];
+                const imagen = producto.querySelector('img').src;
+
+                notificationIcon.style.display = 'block';
+                notificationMessage.style.display = 'block';
+
+                setTimeout(() => {
+                    notificationIcon.style.display = 'none';
+                    notificationMessage.style.display = 'none';
+                }, 3000);
+
+                const url = `vista_producto.html?nombre=${encodeURIComponent(nombre)}&precio=${encodeURIComponent(precio)}&imagen=${encodeURIComponent(imagen)}`;
+                window.open(url, '_blank');
+            });
+        });
+    </script>
+
+    <!-- Formulario de pedidos juegos -->
+    <section id="PedidosJuegos">
+        <h2>Pedidos Juegos</h2>
+        <form action="#" method="POST">
+            <label for="nombre">Nombre del juego:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+
+            <label for="categoria">Categoría del juego:</label>
+            <input type="text" id="categoria" name="categoria" required><br><br>
+
+            <label for="correo">Correo electrónico:</label>
+            <input type="email" id="correo" name="correo" required><br><br>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <!-- Footer con crédito -->
+    <footer>
+        <p style="text-align: center; font-size: 18px; color: #000;">
+            👤&copy; Naidelyn Vazquez Ortiz 3ºA. Todos los derechos reservados. 👤
+        </p>
+    </footer>
+    <script>
+        // Manejador para el botón del carrito
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        document.getElementById('carrito-btn').textContent = `Carrito (${carrito.length})`;
+
+        document.getElementById('carrito-btn').addEventListener('click', () => {
+            alert(`Tienes ${carrito.length} productos en tu carrito.`);
+        });
+    </script>
+</body>
+
+</html>
