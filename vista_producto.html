@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Producto</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #02a3;
+        }
+        #producto-detalle {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        #producto-detalle:hover {
+            transform: scale(1.05);
+        }
+        #imagen-producto {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        #imagen-producto:hover {
+            transform: scale(1.1);
+        }
+        h2 {
+            color: #333;
+        }
+        #comprar, #regresar-catalogo {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #comprar {
+            background-color: #4CAF50;
+            color: white;
+        }
+        #comprar:hover {
+            background-color: #45a049;
+        }
+        #regresar-catalogo {
+            background-color: #007BFF;
+            color: white;
+        }
+        #regresar-catalogo:hover {
+            background-color: #0056b3;
+        }
+        p {
+            font-size: 14px;
+            color: #666;
+        }
+        #cantidad {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Detalles del Producto</h1>
+    </header>
+
+    <section id="producto-detalle">
+        <img id="imagen-producto" alt="Imagen del producto">
+        <h2 id="nombre-producto"></h2>
+        <p id="descripcion-producto"></p> 
+        <p id="precio-producto"></p>
+        <p id="detalles-producto"></p>
+        <label for="cantidad">Cantidad:</label>
+        <input type="number" id="cantidad" name="cantidad" value="1" min="1">
+        <button id="comprar">Comprar Ahora</button>
+        <button id="regresar-catalogo">Regresar al Catálogo</button>
+    </section>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const nombre = params.get('nombre');
+        const precio = params.get('precio');
+        const imagen = params.get('imagen');
+        
+        const descripciones = {
+            "Resident Evil 6": "Juego cooperativo con 3 campañas, donde puedes jugar en línea o en un mundo abierto.",
+            "Left For Dead 2": "Shooter de acción multijugador, lucha contra hordas de zombies en campañas cooperativas.",
+            "Gears Of War Ultimate": "Juego de disparos en tercera persona con una emocionante campaña y modo multijugador.",
+            "Dead Island 2": "RPG de acción en un mundo post-apocalíptico lleno de zombies y supervivientes.",
+            "Call Of Duty Black Ops II": "Shooter de acción multijugador en un mundo post-apocalíptico. Disponible para jugar en solitario o cooperativo con amigos."
+        };
+        
+        let inventario = JSON.parse(localStorage.getItem('inventario')) || {
+            "Resident Evil 6": 20,
+            "Left For Dead 2": 60,
+            "Gears Of War Ultimate": 50,
+            "Dead Island 2": 15,
+            "Call Of Duty Black Ops II": 80
+        };
+
+        const detallesCompra = {
+            "Resident Evil 6": `Estilo de compra: Digital. ${inventario["Resident Evil 6"]} en inventario disponible.`,
+            "Left For Dead 2": `Estilo de compra: Físico. ${inventario["Left For Dead 2"]} en inventario disponible.`,
+            "Gears Of War Ultimate": `Estilo de compra: Digital. ${inventario["Gears Of War Ultimate"]} en inventario disponible.`,
+            "Dead Island 2": `Estilo de compra: Físico. ${inventario["Dead Island 2"]} en inventario disponible.`,
+            "Call Of Duty Black Ops II": `Estilo de compra: Físico. ${inventario["Call Of Duty Black Ops II"]} en inventario disponible.`
+        };
+
+        document.getElementById('nombre-producto').textContent = nombre;
+        document.getElementById('precio-producto').textContent = `Precio: ${precio}`;
+        document.getElementById('imagen-producto').src = imagen;
+        document.getElementById('descripcion-producto').textContent = descripciones[nombre] || "Descripción no disponible.";
+        document.getElementById('detalles-producto').textContent = detallesCompra[nombre] || "Detalles no disponibles.";
+
+        document.getElementById('comprar').addEventListener('click', () => {
+            let cantidad = parseInt(document.getElementById('cantidad').value);
+            
+            if (cantidad > inventario[nombre]) {
+                alert(`Solo quedan ${inventario[nombre]} unidades de ${nombre}.`);
+            } else {
+                inventario[nombre] -= cantidad;
+                localStorage.setItem('inventario', JSON.stringify(inventario));
+
+                // Añadir el producto al carrito
+                let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                carrito.push({ nombre, precio, cantidad });
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+
+                alert(`${cantidad} unidades de ${nombre} añadidos al carrito. Quedan ${inventario[nombre]} en inventario.`);
+                window.location.href = 'index.html';
+            }
+        });
+
+        document.getElementById('regresar-catalogo').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
